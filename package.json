@@ -12,7 +12,8 @@
     "appcenter-analytics": "^1.4.0",
     "appcenter-crashes": "^1.4.0",
     "react": "^16.3.0-alpha.1",
-    "react-native": "0.54.0"
+    "react-native": "0.54.0",
+    "react-native-code-push": "^5.2.2"
   },
   "devDependencies": {
     "babel-jest": "22.4.1",
@@ -21,6 +22,9 @@
     "react-test-renderer": "^16.3.0-alpha.1"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "/node_modules/?!appcenter-(analytics|crashes)"
+    ]
   }
 }

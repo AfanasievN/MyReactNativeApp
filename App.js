@@ -9,8 +9,14 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
+
+import Analytics from 'appcenter-analytics';
+import Crashes from 'appcenter-crashes';
+
+import CodePush from 'react-native-code-push';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -20,6 +26,50 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component<Props> {
+
+  sendEvent(){
+    Analytics.trackEvent('My custom Event', {
+      prop1: new Date().getSeconds()
+    })
+  }
+
+    nativeCrash(){
+        Crashes.generateTestCrash();
+    }
+
+    jsCrash(){
+        this.func1();
+    }
+
+    func1(){ this.func2() }
+    func2(){ this.func3() }
+    func3(){ this.func4() }
+    func4(){ this.func5() }
+
+    func5(){
+     throw new Error('My uncaught javascript exception')
+    }
+
+    constructor(props){
+        super();
+        this.state= {logs: []}
+    }
+
+    CodePushSync(){
+    this.setState({logs: ['Started at ' + new Date().getTime() ]});
+    CodePush.sync({
+        updateDialog: true,
+        installMode: CodePush.InstallMode.IMMEDIATE
+    }, (status) => {
+      for(let key in CodePush.SyncStatus){
+        if (status === CodePush.SyncStatus[key]) {
+          this.setState(prevState => ({ logs: [...prevState.logs, key.replace(/_/g, ' ')] }));
+          break;
+        }
+      }
+        });
+    }
+
   render() {
     return (
       <View style={styles.container}>
@@ -32,6 +82,13 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <Button title='send event' onPress={() => this.sendEvent()}/>
+          <Button title='Native crash' onPress={() => this.nativeCrash()} />
+          <Button title='JS crash' onPress={() => this.jsCrash()} />
+          <Button title='CodePushSync' onPress={() => this.CodePushSync()} />
+          <Text style={styles.instructions}>
+              {JSON.stringify(this.state.logs)}
+          </Text>
       </View>
     );
   }
