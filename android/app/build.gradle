@@ -149,6 +149,8 @@ android {
 }
 
 dependencies {
+    compile project(':appcenter-crashes')
+
     compile project(':react-native-code-push')
     compile project(':react-native-code-push')
     compile project(':appcenter-crashes')
