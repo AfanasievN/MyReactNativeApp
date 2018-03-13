@@ -21,17 +21,17 @@ const instructions = Platform.select({
 
 export default class App extends Component<Props> {
 
-  static sendEvent(){
+   sendEvent(){
     Analytics.trackEvent('My custom Event', {
       prop1: new Date().getSeconds()
     })
   }
 
-    static nativeCrash(){
+  nativeCrash(){
         Crashes.generateTestCrash();
     }
 
-    static jsCrash(){
+    jsCrash(){
         this.func1();
     }
 
@@ -40,7 +40,7 @@ export default class App extends Component<Props> {
     func3(){ this.func4() }
     func4(){ this.func5() }
 
-    static func5(){
+    func5(){
      throw new Error('My uncaught javascript exception')
     }
 
@@ -50,7 +50,7 @@ export default class App extends Component<Props> {
     }
 
     CodePushSync(){
-    this.setState({logs: ['Started at ' + new Date().getTime() ]});
+        this.setState({logs: ['Started at ' + new Date().getTime() ]});
     CodePush.sync({
         updateDialog: true,
         installMode: CodePush.InstallMode.IMMEDIATE
@@ -71,14 +71,20 @@ export default class App extends Component<Props> {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
           {instructions}
         </Text>
         <Button title='send event' onPress={() => this.sendEvent()}/>
-          <Button title='Native crash' onPress={() => this.nativeCrash()} />
+          <Text style={styles.instructions}>
+              To get started, edit App.js
+          </Text>
+          <Button title='Native crash' onPress={() =>this.nativeCrash()} />
+          <Text style={styles.instructions}>
+              To get started, edit App.js
+          </Text>
           <Button title='JS crash' onPress={() => this.jsCrash()} />
+          <Text style={styles.instructions}>
+              To get started, edit App.js
+          </Text>
           <Button title='CodePushSync' onPress={() => this.CodePushSync()} />
           <Text style={styles.instructions}>
               {JSON.stringify(this.state.logs)}
