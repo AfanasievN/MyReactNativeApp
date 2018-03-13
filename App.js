@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -27,17 +21,17 @@ const instructions = Platform.select({
 
 export default class App extends Component<Props> {
 
-  sendEvent(){
+  static sendEvent(){
     Analytics.trackEvent('My custom Event', {
       prop1: new Date().getSeconds()
     })
   }
 
-    nativeCrash(){
+    static nativeCrash(){
         Crashes.generateTestCrash();
     }
 
-    jsCrash(){
+    static jsCrash(){
         this.func1();
     }
 
@@ -46,7 +40,7 @@ export default class App extends Component<Props> {
     func3(){ this.func4() }
     func4(){ this.func5() }
 
-    func5(){
+    static func5(){
      throw new Error('My uncaught javascript exception')
     }
 

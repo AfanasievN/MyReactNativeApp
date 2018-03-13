@@ -24,7 +24,10 @@
   "jest": {
     "preset": "react-native",
     "transformIgnorePatterns": [
-      "/node_modules/?!appcenter-(analytics|crashes)"
+      "/node_modules/(?!(react-native|appcenter-analytics|appcent-crashes|react-native-code-push))"
+    ],
+    "setupFiles": [
+      "./jest-setup.js"
     ]
   }
 }
